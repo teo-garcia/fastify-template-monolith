@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { Todo } from "../types";
+import type { Todo } from "../tools/types";
 import todoService from "./todo.service";
 
 export type GetRequest = {
@@ -25,34 +25,39 @@ export type RemoveRequest = {
   };
 };
 
-function get(request: FastifyRequest<GetRequest>, reply: FastifyReply) {
+async function get(request: FastifyRequest<GetRequest>, reply: FastifyReply) {
   const { id } = request.params;
-  const todo = todoService.get(id);
-
+  const todo = await todoService.get(id);
   reply.send(todo);
 }
 
-function getAll(request: FastifyRequest, reply: FastifyReply) {
-  const todos = todoService.getAll();
+async function getAll(request: FastifyRequest, reply: FastifyReply) {
+  const todos = await todoService.getAll();
   reply.send(todos);
 }
 
-function add(request: FastifyRequest<AddRequest>, reply: FastifyReply) {
+async function add(request: FastifyRequest<AddRequest>, reply: FastifyReply) {
   const newTodo = request.body;
-  const addedTodo = todoService.add(newTodo);
+  const addedTodo = await todoService.add(newTodo);
   reply.code(201).send(addedTodo);
 }
 
-function update(request: FastifyRequest<UpdateRequest>, reply: FastifyReply) {
+async function update(
+  request: FastifyRequest<UpdateRequest>,
+  reply: FastifyReply
+) {
   const { id } = request.params;
   const newTodo = request.body;
-  const updatedTodo = todoService.update(id, newTodo);
+  const updatedTodo = await todoService.update(id, newTodo);
   reply.send(updatedTodo);
 }
 
-function remove(request: FastifyRequest<RemoveRequest>, reply: FastifyReply) {
+async function remove(
+  request: FastifyRequest<RemoveRequest>,
+  reply: FastifyReply
+) {
   const { id } = request.params;
-  todoService.remove(id);
+  await todoService.remove(id);
   reply.code(204).send();
 }
 

@@ -1,5 +1,5 @@
 {
-  "name": "fastify-template-monolithicc",
+  "name": "fastify-template-sequelize",
   "version": "1.0.0",
   "main": "src/index.ts",
   "author": "teo-garcia",
@@ -9,8 +9,12 @@
   },
   "dependencies": {
     "@fastify/swagger": "^8.1.0",
+    "@fastify/swagger-ui": "^1.1.0",
     "dotenv": "^16.0.3",
-    "fastify": "^4.9.2"
+    "fastify": "^4.9.2",
+    "fastify-plugin": "^4.3.0",
+    "sequelize": "^6.25.3",
+    "sqlite3": "^5.1.2"
   },
   "devDependencies": {
     "@types/node": "^18.11.7",

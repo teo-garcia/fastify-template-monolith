@@ -1,18 +1,23 @@
-import { Todo } from "../types";
+import type { Todo as TodoType } from "../tools/types";
+import Todo from "./todo.model";
 
-function get(id: number) {
-  return {};
-}
+async function get(id: number) {
+  const todo = await Todo.findByPk(id);
 
-function getAll() {
-  return [{}, {}, {}];
-}
-
-function add(todo: Todo) {
   return todo;
 }
 
-function update(id: number, todo: Partial<Todo>) {
+async function getAll() {
+  const todos = await Todo.findAll();
+  return todos;
+}
+
+async function add(todo: TodoType) {
+  const createdTodo = await Todo.create(todo);
+  return createdTodo;
+}
+
+function update(id: number, todo: Partial<TodoType>) {
   return todo;
 }
 
