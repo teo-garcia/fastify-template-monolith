@@ -2,26 +2,26 @@
 export default {
   get: {
     params: {
-      type: "object",
+      type: 'object',
       properties: {
         id: {
-          type: "number",
+          type: 'number',
         },
       },
     },
     response: {
       200: {
-        type: "object",
+        type: 'object',
         properties: {
           title: {
-            type: "string",
+            type: 'string',
             required: true,
           },
           description: {
-            type: "string",
+            type: 'string',
           },
           status: {
-            type: "string",
+            type: 'string',
           },
         },
       },
@@ -30,19 +30,19 @@ export default {
   getAll: {
     response: {
       200: {
-        type: "array",
+        type: 'array',
         items: {
-          type: "object",
+          type: 'object',
           properties: {
             title: {
-              type: "string",
+              type: 'string',
               required: true,
             },
             description: {
-              type: "string",
+              type: 'string',
             },
             status: {
-              type: "string",
+              type: 'string',
             },
           },
         },
@@ -51,37 +51,37 @@ export default {
   },
   post: {
     body: {
-      type: "object",
+      type: 'object',
       properties: {
         title: {
-          type: "string",
+          type: 'string',
           required: true,
         },
         description: {
-          type: "string",
+          type: 'string',
         },
         status: {
-          type: "string",
-          default: "todo",
+          type: 'string',
+          default: 'todo',
         },
       },
     },
     response: {
       201: {
-        type: "object",
+        type: 'object',
         properties: {
           title: {
-            type: "string",
+            type: 'string',
             required: true,
           },
           description: {
-            type: "string",
+            type: 'string',
           },
           status: {
-            type: "string",
+            type: 'string',
           },
         },
       },
     },
   },
-};
+}
