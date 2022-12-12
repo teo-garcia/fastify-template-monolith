@@ -21,6 +21,8 @@ function update(id: number, todo: Partial<TodoType>) {
   return todo
 }
 
-function remove(id: number) {}
+function remove(id: number) {
+  console.log(`Hello ${id}`)
+}
 
 export default { get, getAll, add, update, remove }

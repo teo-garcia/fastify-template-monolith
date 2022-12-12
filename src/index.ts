@@ -19,7 +19,7 @@ server.register(routes)
 
 const bootstrap = async () => {
   try {
-    const port = parseInt(process.env.SERVER_PORT!)
+    const port = parseInt(process.env.SERVER_PORT as string)
     await database.sync()
     await server.listen({ port })
     server.log.info(port)

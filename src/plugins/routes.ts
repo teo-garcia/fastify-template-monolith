@@ -1,7 +1,7 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import todoController from '../todo/todo.controller'
 
-async function routes(fastify: FastifyInstance, options: Object) {
+async function routes(fastify: FastifyInstance, _options: unknown) {
   fastify.route({
     method: 'GET',
     url: '/ping',

@@ -1,31 +1,12 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import type { Todo } from '../tools/types'
+import type { TodoRequest } from '@tools/types'
+
 import todoService from './todo.service'
 
-export type GetRequest = {
-  Params: {
-    id: number
-  }
-}
-
-export type UpdateRequest = {
-  Body: Todo
-  Params: {
-    id: number
-  }
-}
-
-export type AddRequest = {
-  Body: Todo
-}
-
-export type RemoveRequest = {
-  Params: {
-    id: number
-  }
-}
-
-async function get(request: FastifyRequest<GetRequest>, reply: FastifyReply) {
+async function get(
+  request: FastifyRequest<TodoRequest['GET']>,
+  reply: FastifyReply
+) {
   const { id } = request.params
   const todo = await todoService.get(id)
   reply.send(todo)
@@ -36,14 +17,17 @@ async function getAll(request: FastifyRequest, reply: FastifyReply) {
   reply.send(todos)
 }
 
-async function add(request: FastifyRequest<AddRequest>, reply: FastifyReply) {
+async function add(
+  request: FastifyRequest<TodoRequest['POST']>,
+  reply: FastifyReply
+) {
   const newTodo = request.body
   const addedTodo = await todoService.add(newTodo)
   reply.code(201).send(addedTodo)
 }
 
 async function update(
-  request: FastifyRequest<UpdateRequest>,
+  request: FastifyRequest<TodoRequest['PUT']>,
   reply: FastifyReply
 ) {
   const { id } = request.params
@@ -53,7 +37,7 @@ async function update(
 }
 
 async function remove(
-  request: FastifyRequest<RemoveRequest>,
+  request: FastifyRequest<TodoRequest['DELETE']>,
   reply: FastifyReply
 ) {
   const { id } = request.params
