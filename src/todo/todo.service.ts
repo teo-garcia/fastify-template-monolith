@@ -1,4 +1,4 @@
-import type { Todo as TodoType } from '../tools/types'
+import type { Todo as TodoType } from '@tools/types'
 import Todo from './todo.model'
 
 async function get(id: number) {

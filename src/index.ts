@@ -4,9 +4,9 @@ import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
 
 // TODO: Fix Typescript Paths
-import database from './tools/database'
-import routes from './plugins/routes'
-import swaggerConfig from './config/swagger.config'
+import database from '@tools/database'
+import routes from '@plugins/routes'
+import swaggerConfig from '@config/swagger.config'
 
 const logger = false
 

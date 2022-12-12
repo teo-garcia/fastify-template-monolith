@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize'
-import database from '../tools/database'
+import database from '@tools/database'
 
 const Todo = database.define('Todo', {
   title: {
