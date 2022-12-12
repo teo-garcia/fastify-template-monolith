@@ -1,6 +1,6 @@
 {
   "name": "fastify-template-sequelize",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "src/index.ts",
   "author": "teo-garcia",
   "license": "MIT",

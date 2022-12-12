@@ -1,7 +1,7 @@
 ![README.md banner](./README.png)
 
-![Package License](https://img.shields.io/github/license/teo-garcia/react-template-next)
-![Package Version](https://img.shields.io/github/package-json/v/teo-garcia/react-template-next)
+![Package License](https://img.shields.io/github/license/teo-garcia/fastify-template-sequelize)
+![Package Version](https://img.shields.io/github/package-json/v/teo-garcia/fastify-template-sequelize)
 
 # Fastify Template Sequelize
 
