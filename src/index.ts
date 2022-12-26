@@ -1,4 +1,4 @@
-import Fastify from 'fastify'
+import fastify from 'fastify'
 import dotenv from 'dotenv'
 import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
@@ -9,7 +9,7 @@ import swaggerConfig from '@config/swagger.config'
 
 const logger = false
 
-const server = Fastify({ logger })
+const server = fastify({ logger })
 
 /* Plugins */
 server.register(swagger)
