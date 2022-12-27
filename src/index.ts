@@ -5,8 +5,8 @@ import swaggerUI from '@fastify/swagger-ui'
 import sensible from '@fastify/sensible'
 
 import { database } from '@tools/database'
-import { TodoRouter } from '@routes/todo.router'
-import { HealthRouter } from '@routes/health.router'
+import { TodoRouter } from '@routers/todo.router'
+import { HealthRouter } from '@routers/health.router'
 import { SwaggerConfig } from '@config/swagger.config'
 import { FastifyConfig } from '@config/fastify.config'
 
