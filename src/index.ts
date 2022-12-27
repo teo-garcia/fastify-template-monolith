@@ -2,29 +2,34 @@ import fastify from 'fastify'
 import dotenv from 'dotenv'
 import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
+import sensible from '@fastify/sensible'
 
-import database from '@tools/database'
-import routes from '@plugins/routes'
-import swaggerConfig from '@config/swagger.config'
+import { database } from '@tools/database'
+import { TodoRouter } from '@routes/todo.router'
+import { HealthRouter } from '@routes/health.router'
+import { SwaggerConfig } from '@config/swagger.config'
+import { FastifyConfig } from '@config/fastify.config'
 
-const logger = false
-
-const server = fastify({ logger })
+const app = fastify(FastifyConfig)
 
 /* Plugins */
-server.register(swagger)
-server.register(swaggerUI, swaggerConfig)
-server.register(routes)
+app.register(sensible)
+app.register(swagger)
+app.register(swaggerUI, SwaggerConfig)
 
-const bootstrap = async () => {
+/* Routers */
+app.register(HealthRouter)
+app.register(TodoRouter)
+
+const bootstrap = async (): Promise<void> => {
   try {
     const port = parseInt(process.env.SERVER_PORT as string)
     await database.sync()
-    await server.listen({ port })
-    server.log.info(port)
+    await app.listen({ port })
+    app.log.info(port)
     console.info(`[fastify] running at port: ${port} 🚀`)
   } catch (error) {
-    server.log.error(error)
+    app.log.error(error)
     console.error(error)
     process.exit(1)
   }

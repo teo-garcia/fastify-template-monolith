@@ -6,8 +6,13 @@
     "paths": {
       "@config/*": ["config/*"],
       "@plugins/*": ["plugins/*"],
-      "@tools/*": ["tools/*"]
-    } ,
+      "@tools/*": ["tools/*"],
+      "@schemas/*": ["schemas/*"],
+      "@services/*": ["services/*"],
+      "@controllers/*": ["controllers/*"],
+      "@models/*": ["models/*"],
+      "@routes/*": ["routes/*"],
+    },
     "esModuleInterop": true ,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

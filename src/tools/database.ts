@@ -1,7 +1,9 @@
 import { Sequelize } from 'sequelize'
 
-export default new Sequelize({
+const database = new Sequelize({
   dialect: 'sqlite',
-  storage: 'src/database/dev.db',
+  storage: 'dev.db',
   logging: false, // TODO: Bind logging with Fastify Logger
 })
+
+export { database }

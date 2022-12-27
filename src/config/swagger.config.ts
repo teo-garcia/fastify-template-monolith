@@ -1,7 +1,7 @@
-import { SwaggerOptions } from '@fastify/swagger'
 import type { FastifyRegisterOptions } from 'fastify'
+import type { SwaggerOptions } from '@fastify/swagger'
 
-export default {
+const SwaggerConfig = {
   routePrefix: '/swagger',
   exposeRoute: true,
   swagger: {
@@ -19,3 +19,5 @@ export default {
     produces: ['application/json'],
   },
 } as FastifyRegisterOptions<SwaggerOptions>
+
+export { SwaggerConfig }

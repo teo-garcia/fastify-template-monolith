@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize'
-import database from '@tools/database'
+import { database } from '@tools/database'
 
-const Todo = database.define('Todo', {
+const TodoModel = database.define('Todo', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -14,4 +14,4 @@ const Todo = database.define('Todo', {
   },
 })
 
-export default Todo
+export { TodoModel }
