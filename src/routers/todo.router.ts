@@ -3,38 +3,40 @@ import { TodoController } from '@controllers/todo.controller'
 import { TodoSchema } from '@schemas/todo.schema'
 
 const TodoRouter: FastifyPluginCallback = async (fastify) => {
+  const todoController = TodoController()
+
   fastify.route({
     method: 'GET',
     url: '/todo/:id',
-    handler: TodoController.get,
+    handler: todoController.get,
     schema: TodoSchema.get,
   })
 
   fastify.route({
     method: 'GET',
     url: '/todo',
-    handler: TodoController.getAll,
+    handler: todoController.getAll,
     schema: TodoSchema.getAll,
   })
 
   fastify.route({
     method: 'POST',
     url: '/todo',
-    handler: TodoController.add,
+    handler: todoController.add,
     schema: TodoSchema.add,
   })
 
   fastify.route({
     method: 'PUT',
     url: '/todo',
-    handler: TodoController.update,
+    handler: todoController.update,
     schema: TodoSchema.update,
   })
 
   fastify.route({
     method: 'DELETE',
     url: '/todo/:id',
-    handler: TodoController.remove,
+    handler: todoController.remove,
     schema: TodoSchema.remove,
   })
 }

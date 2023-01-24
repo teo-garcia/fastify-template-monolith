@@ -49,11 +49,29 @@ export type TodoControllerLike = {
   ) => Promise<void>
 }
 
-export class HttpError extends Error {
-  statusCode: number
+/* User Types */
+export type User = {
+  name: string
+  email: string
+  password: string
+}
 
-  constructor(message: string, statusCode: number) {
-    super(message)
-    this.statusCode = statusCode
+export type UserRequest = {
+  SIGN_UP: {
+    Body: User
   }
+  SIGN_IN: {
+    Body: Omit<User, 'name'>
+  }
+}
+
+export type UserControllerLike = {
+  SIGN_UP: (
+    request: FastifyRequest<UserRequest['SIGN_UP']>,
+    reply: FastifyReply
+  ) => Promise<void>
+  SIGN_IN: (
+    request: FastifyRequest<UserRequest['SIGN_IN']>,
+    reply: FastifyReply
+  ) => Promise<void>
 }
