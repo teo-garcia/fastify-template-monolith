@@ -11,7 +11,7 @@ A faster way to start using Fastify with Sequelize.
 
 - `Node 16+`
 - `Git 2+`
-- `Yarn 1`
+- `npm 6`
 
 ## Installation
 
@@ -24,13 +24,13 @@ A faster way to start using Fastify with Sequelize.
 2. Install the dependencies:
 
 ```bash
-  yarn
+  npm i
 ```
 
 3. Run the project:
 
 ```bash
-  yarn dev
+  npm run dev
 ```
 
 ## Features
