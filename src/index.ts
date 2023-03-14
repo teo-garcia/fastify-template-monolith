@@ -1,4 +1,4 @@
-import fastify, { FastifyRequest } from 'fastify'
+import fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import dotenv from 'dotenv'
 import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
@@ -28,13 +28,21 @@ app.register(fastifyAuth)
 app.register(fastifyJwt, JwtConfig)
 
 /* Decorators */
-app.decorate('verifyJwtToken', async (request: FastifyRequest) => {
-  try {
-    await request.jwtVerify()
-  } catch (error) {
-    console.error(error)
+app.decorate(
+  'verifyJwtToken',
+  async (
+    request: FastifyRequest,
+    _reply: FastifyReply,
+    done: (error?: unknown) => void
+  ) => {
+    try {
+      await request.jwtVerify()
+      done()
+    } catch (error) {
+      done(error)
+    }
   }
-})
+)
 
 /* Routers */
 app.register(HealthRouter)
@@ -47,7 +55,7 @@ const bootstrap = async (): Promise<void> => {
     await database.sync()
     await app.listen({ port })
     app.log.info(port)
-    console.info(`[fastify] running at port: ${port} 🚀`)
+    console.info(`[fastify] running at http://localhost:${port}/ 🚀`)
   } catch (error) {
     app.log.error(error)
     console.error(error)

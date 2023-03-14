@@ -11,7 +11,7 @@ A faster way to start using Fastify with Sequelize.
 
 - `Node 16+`
 - `Git 2+`
-- `npm 6`
+- `Yarn 1`
 
 ## Installation
 
