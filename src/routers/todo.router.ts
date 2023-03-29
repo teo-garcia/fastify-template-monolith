@@ -10,7 +10,6 @@ const TodoRouter: FastifyPluginCallback = async (fastify) => {
     url: '/todo/:id',
     handler: todoController.get,
     schema: TodoSchema.get,
-    // preHandler: fastify.auth(fastify.verifyJwtToken),
   })
 
   fastify.route({
