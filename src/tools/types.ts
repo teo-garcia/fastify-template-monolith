@@ -7,7 +7,7 @@ export type Todo = {
   status?: string
 }
 
-export type TodoRequest = {
+export type TodosRequest = {
   GET: {
     Params: {
       id: number
@@ -29,22 +29,22 @@ export type TodoRequest = {
   }
 }
 
-export type TodoControllerLike = {
+export type TodosControllerLike = {
   GET: (
-    request: FastifyRequest<TodoRequest['GET']>,
+    request: FastifyRequest<TodosRequest['GET']>,
     reply: FastifyReply
   ) => Promise<void>
   GET_ALL: (request: FastifyRequest, reply: FastifyReply) => Promise<void>
   ADD: (
-    request: FastifyRequest<TodoRequest['ADD']>,
+    request: FastifyRequest<TodosRequest['ADD']>,
     reply: FastifyReply
   ) => Promise<void>
   UPDATE: (
-    request: FastifyRequest<TodoRequest['UPDATE']>,
+    request: FastifyRequest<TodosRequest['UPDATE']>,
     reply: FastifyReply
   ) => Promise<void>
   REMOVE: (
-    request: FastifyRequest<TodoRequest['REMOVE']>,
+    request: FastifyRequest<TodosRequest['REMOVE']>,
     reply: FastifyReply
   ) => Promise<void>
 }

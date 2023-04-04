@@ -1,22 +1,20 @@
-import fastify, { FastifyReply, FastifyRequest } from 'fastify'
-import dotenv from 'dotenv'
+import 'dotenv/config'
+import fastify from 'fastify'
 import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
 import sensible from '@fastify/sensible'
-import fastifyAuth from '@fastify/auth'
-import fastifyJwt from '@fastify/jwt'
-
-dotenv.config()
+import postgres from '@fastify/postgres'
+// import fastifyAuth from '@fastify/auth'
+// import fastifyJwt from '@fastify/jwt'
 
 import { SwaggerConfig } from '@config/swagger.config'
 import { FastifyConfig } from '@config/fastify.config'
-import { JwtConfig } from '@config/jwt.config'
+import { PostgresConfig } from '@config/postgres.config'
+// import { JwtConfig } from '@config/jwt.config'
 
-import { TodoRouter } from '@routers/todo.router'
+import { TodosRouter } from '@routers/todos.router'
 import { HealthRouter } from '@routers/health.router'
 import { UserRouter } from '@routers/user.router'
-
-import { database } from '@tools/database'
 
 const app = fastify(FastifyConfig)
 
@@ -24,35 +22,16 @@ const app = fastify(FastifyConfig)
 app.register(sensible)
 app.register(swagger)
 app.register(swaggerUI, SwaggerConfig)
-app.register(fastifyAuth)
-app.register(fastifyJwt, JwtConfig)
-
-/* Decorators */
-app.decorate(
-  'verifyJwtToken',
-  async (
-    request: FastifyRequest,
-    _reply: FastifyReply,
-    done: (error?: unknown) => void
-  ) => {
-    try {
-      await request.jwtVerify()
-      done()
-    } catch (error) {
-      done(error)
-    }
-  }
-)
+app.register(postgres, PostgresConfig)
 
 /* Routers */
 app.register(HealthRouter)
-app.register(TodoRouter)
+app.register(TodosRouter)
 app.register(UserRouter)
 
 const bootstrap = async (): Promise<void> => {
   try {
     const port = parseInt(process.env.SERVER_PORT as string)
-    await database.sync()
     await app.listen({ port })
     app.log.info(port)
     console.info(`[fastify] running at http://localhost:${port}/ 🚀`)

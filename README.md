@@ -1,11 +1,11 @@
 ![README.md banner](./README.png)
 
-![Package License](https://img.shields.io/github/license/teo-garcia/fastify-template-sequelize)
-![Package Version](https://img.shields.io/github/package-json/v/teo-garcia/fastify-template-sequelize)
+![Package License](https://img.shields.io/github/license/teo-garcia/fastify-template-postgres)
+![Package Version](https://img.shields.io/github/package-json/v/teo-garcia/fastify-template-postgres)
 
-# Fastify Template Sequelize
+# Fastify Template Postgres
 
-A faster way to start using Fastify with Sequelize.
+A faster way to start using Fastify with Postgres.
 
 ## Requirements
 
@@ -18,7 +18,7 @@ A faster way to start using Fastify with Sequelize.
 1. Clone the repo or use the `gh` tool:
 
 ```bash
-  gh repo create my-project --private --clone --template teo-garcia/fastify-template-sequelize
+  gh repo create my-project --private --clone --template teo-garcia/fastify-template-postgres
 ```
 
 2. Install the dependencies:
@@ -36,9 +36,8 @@ A faster way to start using Fastify with Sequelize.
 ## Features
 
 - Fastify 4.
-- Sequelize 6.
+- PG 8.
 - Typescript 4.
-- SQLite 5
 - Linting with ESLint + Prettier.
 - Git Hooks with Husky + Lint Staged.
 

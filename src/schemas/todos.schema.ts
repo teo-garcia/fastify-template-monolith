@@ -1,5 +1,5 @@
 // TODO: Use Fluent-Schema instead
-const TodoSchema = {
+const TodosSchema = {
   get: {
     params: {
       type: 'object',
@@ -68,7 +68,7 @@ const TodoSchema = {
         },
         status: {
           type: 'string',
-          default: 'todo',
+          default: 'to-do',
         },
       },
       required: ['title'],
@@ -154,4 +154,4 @@ const TodoSchema = {
   },
 }
 
-export { TodoSchema }
+export { TodosSchema }

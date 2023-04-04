@@ -1,5 +1,5 @@
 {
-  "name": "fastify-template-sequelize",
+  "name": "fastify-template-postgres",
   "version": "0.0.0",
   "main": "src/index.ts",
   "author": "teo-garcia",
@@ -10,20 +10,21 @@
   "dependencies": {
     "@fastify/auth": "^4.2.0",
     "@fastify/jwt": "^6.7.1",
+    "@fastify/postgres": "^5.2.0",
     "@fastify/sensible": "^5.2.0",
     "@fastify/swagger": "^8.3.1",
     "@fastify/swagger-ui": "^1.6.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "fastify": "^4.15.0",
-    "sequelize": "^6.30.0",
-    "sqlite3": "^5.1.6"
+    "pg": "^8.10.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/node": "^18.15.11",
-    "@typescript-eslint/eslint-plugin": "^5.57.0",
-    "@typescript-eslint/parser": "^5.57.0",
+    "@types/pg": "^8.6.6",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
     "eslint": "^8.37.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
