@@ -1,33 +1,32 @@
-// import type { FastifyReply, FastifyRequest } from 'fastify'
+import type { FastifyReply, FastifyRequest } from 'fastify'
+import type { User, UserRequest } from './types'
+import { comparePassword } from './bcrypt'
 
-// const verifyJWT = async (request: FastifyRequest) => {
-//   if (!request.raw.headers.authorization) {
-//     return Promise.reject(new Error('Missing token header'))
-//   }
+const verifyJWTandLevel = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    await request.jwtVerify()
+  } catch (error) {
+    reply.unauthorized()
+  }
+}
 
-//   return new Promise(function (resolve, reject) {
-//     request.jwtVerify(
-//       request.raw.headers.authorization,
-//       {},
-//       function (err, decoded) {
-//         if (err) {
-//           return reject(err)
-//         }
-//         resolve(decoded)
-//       }
-//     )
-//   })
-//     .then(function (decoded) {
-//       return level.get(decoded.user).then(function (password) {
-//         if (!password || password !== decoded.password) {
-//           throw new Error('Token not valid')
-//         }
-//       })
-//     })
-//     .catch(function (error) {
-//       request.log.error(error)
-//       throw new Error('Token not valid')
-//     })
-// }
+const verifyUserAndPassword = async (
+  request: FastifyRequest<UserRequest['SIGN_IN']>,
+  reply: FastifyReply
+) => {
+  const { email, password } = request.body
 
-// export { verifyJWT }
+  const client = await request.pg
+  const user: User = (
+    await client?.query(`SELECT * FROM users WHERE email = $1`, [email])
+  )?.rows[0]
+  const passwordIsCorrect = await comparePassword(password, user?.password)
+  const isAuthorized = !!user && passwordIsCorrect
+
+  if (!isAuthorized) reply.unauthorized()
+}
+
+export { verifyJWTandLevel, verifyUserAndPassword }

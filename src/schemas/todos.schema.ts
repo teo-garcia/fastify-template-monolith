@@ -17,9 +17,6 @@ const TodosSchema = {
           id: {
             type: 'number',
           },
-          title: {
-            type: 'string',
-          },
           description: {
             type: 'string',
           },
@@ -27,7 +24,7 @@ const TodosSchema = {
             type: 'string',
           },
         },
-        required: ['id', 'title', 'description', 'status'],
+        required: ['id', 'description', 'status'],
       },
     },
   },
@@ -41,9 +38,6 @@ const TodosSchema = {
             id: {
               type: 'number',
             },
-            title: {
-              type: 'string',
-            },
             description: {
               type: 'string',
             },
@@ -51,7 +45,7 @@ const TodosSchema = {
               type: 'string',
             },
           },
-          required: ['id', 'title', 'description', 'status'],
+          required: ['id', 'description', 'status'],
         },
       },
     },
@@ -60,9 +54,6 @@ const TodosSchema = {
     body: {
       type: 'object',
       properties: {
-        title: {
-          type: 'string',
-        },
         description: {
           type: 'string',
         },
@@ -71,7 +62,7 @@ const TodosSchema = {
           default: 'to-do',
         },
       },
-      required: ['title'],
+      required: ['description'],
     },
     response: {
       201: {
@@ -80,9 +71,6 @@ const TodosSchema = {
           id: {
             type: 'number',
           },
-          title: {
-            type: 'string',
-          },
           description: {
             type: 'string',
           },
@@ -90,7 +78,7 @@ const TodosSchema = {
             type: 'string',
           },
         },
-        required: ['id', 'title', 'description', 'status'],
+        required: ['id', 'description', 'status'],
       },
     },
   },
@@ -107,9 +95,6 @@ const TodosSchema = {
     body: {
       type: 'object',
       properties: {
-        title: {
-          type: 'string',
-        },
         description: {
           type: 'string',
         },
@@ -118,7 +103,7 @@ const TodosSchema = {
           default: 'todo',
         },
       },
-      required: ['title'],
+      required: ['description'],
     },
     response: {
       200: {
@@ -127,9 +112,6 @@ const TodosSchema = {
           id: {
             type: 'number',
           },
-          title: {
-            type: 'string',
-          },
           description: {
             type: 'string',
           },
@@ -137,7 +119,7 @@ const TodosSchema = {
             type: 'string',
           },
         },
-        required: ['id', 'title', 'description', 'status'],
+        required: ['id', 'description', 'status'],
       },
     },
   },

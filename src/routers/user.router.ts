@@ -1,16 +1,16 @@
 import type { FastifyPluginCallback } from 'fastify'
 import { UserController } from '@controllers/user.controller'
 
-const UserRouter: FastifyPluginCallback = async (fastify) => {
-  const userController = UserController(fastify)
+const UserRouter: FastifyPluginCallback = async (app) => {
+  const userController = UserController(app)
 
-  fastify.route({
+  app.route({
     method: 'POST',
     url: '/user/signup',
     handler: userController.signUp,
   })
 
-  fastify.route({
+  app.route({
     method: 'POST',
     url: '/user/signin',
     handler: userController.signIn,

@@ -2,9 +2,9 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 
 /* Todo Types */
 export type Todo = {
-  title: string
-  description?: string
-  status?: string
+  id?: string
+  description: string
+  status: string
 }
 
 export type TodosRequest = {
@@ -51,6 +51,7 @@ export type TodosControllerLike = {
 
 /* User Types */
 export type User = {
+  id?: string
   name: string
   email: string
   password: string

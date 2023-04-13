@@ -2,18 +2,20 @@ import type { FastifyInstance } from 'fastify'
 import type { TodosControllerLike } from '@tools/types'
 import { TodosService } from '@services/todos.service'
 
-const TodosController = (fastify: FastifyInstance) => {
-  const todosService = TodosService(fastify)
+const TodosController = (app: FastifyInstance) => {
+  const todosService = TodosService(app)
 
   const get: TodosControllerLike['GET'] = async (request, reply) => {
+    console.log(request.user)
     const { id } = request.params
-    const todo = await todosService.get(id)
+    const todo = await todosService.get(id, 1)
     if (!todo) reply.notFound()
     reply.send(todo)
   }
 
   const getAll: TodosControllerLike['GET_ALL'] = async (request, reply) => {
-    const todos = await todosService.getAll()
+    console.log(request.user)
+    const todos = await todosService.getAll(1)
     reply.send(todos)
   }
 
@@ -25,7 +27,9 @@ const TodosController = (fastify: FastifyInstance) => {
 
   const update: TodosControllerLike['UPDATE'] = async (request, reply) => {
     const { id } = request.params
-    const targetTodo = await todosService.get(id)
+    console.log(request.user)
+
+    const targetTodo = await todosService.get(id, 1)
     if (!targetTodo) reply.notFound()
     const updatedTodo = await todosService.update(id, request.body)
     reply.send(updatedTodo)
@@ -33,7 +37,7 @@ const TodosController = (fastify: FastifyInstance) => {
 
   const remove: TodosControllerLike['REMOVE'] = async (request, reply) => {
     const { id } = request.params
-    const targetTodo = await todosService.get(id)
+    const targetTodo = await todosService.get(id, 1)
     if (!targetTodo) reply.notFound()
     await todosService.remove(id)
     reply.code(204).send()
