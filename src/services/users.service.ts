@@ -2,7 +2,7 @@ import { hashPassword } from '@tools/bcrypt'
 import { User } from '@tools/types'
 import type { FastifyInstance } from 'fastify'
 
-const UserService = (app: FastifyInstance) => {
+const UsersService = (app: FastifyInstance) => {
   const get = async (id: number): Promise<User | undefined> => {
     const client = await app.pg.connect()
     const user: User = (
@@ -25,6 +25,7 @@ const UserService = (app: FastifyInstance) => {
     ).rows
     return users
   }
+
   const add = async (user: User) => {
     const client = await app.pg.connect()
     const hashedPassword = await hashPassword(user.password)
@@ -43,6 +44,7 @@ const UserService = (app: FastifyInstance) => {
     ).rows[0]
     return updatedUser
   }
+
   const remove = async (id: number): Promise<void> => {
     const client = await app.pg.connect()
     await client.query(`DELETE FROM users WHERE id = $1`, [id])
@@ -50,4 +52,4 @@ const UserService = (app: FastifyInstance) => {
   return { get, getByEmail, getAll, add, update, remove }
 }
 
-export { UserService }
+export { UsersService }

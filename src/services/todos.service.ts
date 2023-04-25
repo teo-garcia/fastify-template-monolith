@@ -15,6 +15,7 @@ const TodosService = (app: FastifyInstance) => {
   }
 
   const getAll = async (userId: number): Promise<Array<Todo>> => {
+    console.log(userId)
     const client = await app.pg.connect()
     const todos: Array<Todo> = (
       await client.query(`SELECT * FROM todos WHERE user_id = $1;`, [userId])

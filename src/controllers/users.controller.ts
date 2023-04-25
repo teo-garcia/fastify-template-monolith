@@ -1,10 +1,10 @@
 import type { FastifyInstance } from 'fastify'
 import type { UserControllerLike } from '@tools/types'
-import { UserService } from '@services/user.service'
+import { UsersService } from '@services/users.service'
 import { comparePassword } from '@tools/bcrypt'
 
-const UserController = (app: FastifyInstance) => {
-  const userService = UserService(app)
+const UsersController = (app: FastifyInstance) => {
+  const userService = UsersService(app)
 
   const signUp: UserControllerLike['SIGN_UP'] = async (request, reply) => {
     const newUser = request.body
@@ -33,7 +33,7 @@ const UserController = (app: FastifyInstance) => {
       return
     }
     const token = await app.jwt.sign({ id: user?.id })
-    reply.header('Authorization', `Bearer ${token}`).status(200)
+    reply.header('authorization', `Bearer ${token}`).status(200)
   }
 
   return {
@@ -42,4 +42,4 @@ const UserController = (app: FastifyInstance) => {
   }
 }
 
-export { UserController }
+export { UsersController }

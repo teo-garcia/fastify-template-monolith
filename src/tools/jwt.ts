@@ -23,6 +23,7 @@ const verifyUserAndPassword = async (
   const user: User = (
     await client?.query(`SELECT * FROM users WHERE email = $1`, [email])
   )?.rows[0]
+
   const passwordIsCorrect = await comparePassword(password, user?.password)
   const isAuthorized = !!user && passwordIsCorrect
 

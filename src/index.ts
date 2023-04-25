@@ -14,7 +14,7 @@ import { JwtConfig } from '@config/jwt.config'
 
 import { TodosRouter } from '@routers/todos.router'
 import { HealthRouter } from '@routers/health.router'
-import { UserRouter } from '@routers/user.router'
+import { UsersRouter } from '@routers/users.router'
 import { verifyJWTandLevel, verifyUserAndPassword } from '@tools/jwt'
 
 const app = fastify(FastifyConfig)
@@ -45,7 +45,7 @@ app.decorate('verifyUserAndPassword', verifyUserAndPassword)
 
 /* Routers */
 app.register(HealthRouter)
-app.register(UserRouter)
+app.register(UsersRouter)
 
 app.after(() => {
   app.register(TodosRouter)

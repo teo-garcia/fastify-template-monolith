@@ -14,8 +14,8 @@ const TodosController = (app: FastifyInstance) => {
   }
 
   const getAll: TodosControllerLike['GET_ALL'] = async (request, reply) => {
-    console.log(request.user)
-    const todos = await todosService.getAll(1)
+    const userId = (request.user as any).id // TODO: Fix this
+    const todos = await todosService.getAll(userId)
     reply.send(todos)
   }
 
