@@ -43,6 +43,7 @@ A faster way to start using Fastify with Postgres.
 
 ## Commands
 
-| **Command** | **Description**             |
-| ----------- | --------------------------- |
-| dev         | Run `nodemon src/index.ts`. |
+| **Command** | **Description**           |
+| ----------- | ------------------------- |
+| dev         | Run `nodemon src/app.ts`. |
+| test        | Run `tap src/tests`.      |
