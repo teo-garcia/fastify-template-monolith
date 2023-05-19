@@ -1,7 +1,7 @@
 import type { FastifyServerOptions } from 'fastify'
 
 const FastifyConfig = {
-  logger: false,
+  logger: true,
 } satisfies FastifyServerOptions
 
 export { FastifyConfig }
