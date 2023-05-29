@@ -1,5 +1,6 @@
 import 'dotenv/config'
-import fastify, { FastifyInstance } from 'fastify'
+import fastify from 'fastify'
+import type { FastifyInstance } from 'fastify'
 import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
 import sensible from '@fastify/sensible'
@@ -30,31 +31,41 @@ declare module 'fastify' {
   }
 }
 
-const bootstrap = (): FastifyInstance => {
-  const app = fastify(FastifyConfig)
+class App {
+  public readonly app: FastifyInstance
 
-  /* Plugins */
-  app.register(sensible)
-  app.register(swagger)
-  app.register(swaggerUI, SwaggerConfig)
-  app.register(postgres, PostgresConfig)
-  app.register(fastifyJwt, JwtConfig)
-  app.register(fastifyAuth)
+  constructor() {
+    this.app = fastify(FastifyConfig)
+    this.registerPlugins()
+    this.registerDecorators()
+    this.registerRouters()
+  }
 
-  app.decorate('verifyJWTandLevel', verifyJWTandLevel)
-  app.decorate('verifyUserAndPassword', verifyUserAndPassword)
+  private registerPlugins(): void {
+    this.app.register(sensible)
+    this.app.register(swagger, SwaggerConfig)
+    this.app.register(swaggerUI, SwaggerConfig)
+    this.app.register(postgres, PostgresConfig)
+    this.app.register(fastifyJwt, JwtConfig)
+    this.app.register(fastifyAuth)
+  }
 
-  /* Routers */
-  app.register(HealthRouter)
-  app.register(UsersRouter)
+  private registerDecorators(): void {
+    this.app.decorate('verifyJWTandLevel', verifyJWTandLevel)
+    this.app.decorate('verifyUserAndPassword', verifyUserAndPassword)
+  }
 
-  app.after(() => {
-    app.register(TodosRouter)
-  })
+  private registerRouters(): void {
+    const healthRouter = new HealthRouter(this.app)
+    const todoRouter = new TodosRouter(this.app)
+    const userRouter = new UsersRouter(this.app)
 
-  return app
+    healthRouter.registerRoutes()
+    userRouter.registerRoutes()
+    this.app.after(() => {
+      todoRouter.registerRoutes()
+    })
+  }
 }
 
-bootstrap()
-
-export { bootstrap }
+export { App }

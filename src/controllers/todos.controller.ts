@@ -1,48 +1,51 @@
-import type { FastifyInstance } from 'fastify'
-import type { TodosControllerLike } from '@tools/types'
+import { FastifyInstance } from 'fastify'
 import { TodosService } from '@services/todos.service'
+import { TodosControllerLike } from '@tools/types'
 
-const TodosController = (app: FastifyInstance) => {
-  const todosService = TodosService(app)
+class TodosController {
+  private readonly todosService: TodosService
 
-  const get: TodosControllerLike['GET'] = async (request, reply) => {
+  constructor(private readonly app: FastifyInstance) {
+    this.todosService = new TodosService(app)
+  }
+
+  get: TodosControllerLike['GET'] = async (request, reply) => {
     console.log(request.user)
     const { id } = request.params
-    const todo = await todosService.get(id, 1)
+    const todo = await this.todosService.get(id, 1)
     if (!todo) reply.notFound()
     reply.send(todo)
   }
 
-  const getAll: TodosControllerLike['GET_ALL'] = async (request, reply) => {
+  getAll: TodosControllerLike['GET_ALL'] = async (request, reply) => {
     const userId = (request.user as any).id // TODO: Fix this
-    const todos = await todosService.getAll(userId)
+    const todos = await this.todosService.getAll(userId)
     reply.send(todos)
   }
 
-  const add: TodosControllerLike['ADD'] = async (request, reply) => {
+  add: TodosControllerLike['ADD'] = async (request, reply) => {
     const newTodo = request.body
-    await todosService.add(newTodo)
+    await this.todosService.add(newTodo)
     reply.code(201)
   }
 
-  const update: TodosControllerLike['UPDATE'] = async (request, reply) => {
+  update: TodosControllerLike['UPDATE'] = async (request, reply) => {
     const { id } = request.params
     console.log(request.user)
 
-    const targetTodo = await todosService.get(id, 1)
+    const targetTodo = await this.todosService.get(id, 1)
     if (!targetTodo) reply.notFound()
-    const updatedTodo = await todosService.update(id, request.body)
+    const updatedTodo = await this.todosService.update(id, request.body)
     reply.send(updatedTodo)
   }
 
-  const remove: TodosControllerLike['REMOVE'] = async (request, reply) => {
+  remove: TodosControllerLike['REMOVE'] = async (request, reply) => {
     const { id } = request.params
-    const targetTodo = await todosService.get(id, 1)
+    const targetTodo = await this.todosService.get(id, 1)
     if (!targetTodo) reply.notFound()
-    await todosService.remove(id)
+    await this.todosService.remove(id)
     reply.code(204).send()
   }
-  return { get, getAll, add, update, remove }
 }
 
 export { TodosController }

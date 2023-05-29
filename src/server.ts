@@ -1,16 +1,15 @@
-import { bootstrap } from './app'
+import { App } from './app'
 
-const server = bootstrap()
-
+const { app } = new App()
 const port = parseInt(process.env.SERVER_PORT as string)
 
-server.listen({ port }, (error, address) => {
+app.listen({ port }, (error, address) => {
   if (error) {
-    server.log.error(error)
-    console.error(123, error)
+    app.log.error(error)
+    console.error(error)
     process.exit(1)
   }
 
-  server.log.info(port)
+  app.log.info(port)
   console.info(`[fastify] running at ${address} 🚀`)
 })

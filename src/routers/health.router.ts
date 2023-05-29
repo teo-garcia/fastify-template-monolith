@@ -1,13 +1,23 @@
-import type { FastifyPluginCallback, FastifyReply } from 'fastify'
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 
-const HealthRouter: FastifyPluginCallback = async (fastify) => {
-  fastify.route({
-    method: 'GET',
-    url: '/health',
-    handler: (_, reply: FastifyReply) => {
-      reply.send({ status: 'ok' })
-    },
-  })
+class HealthRouter {
+  private app: FastifyInstance
+
+  constructor(app: FastifyInstance) {
+    this.app = app
+  }
+
+  public registerRoutes(): void {
+    this.app.route({
+      method: 'GET',
+      url: '/health',
+      handler: this.get,
+    })
+  }
+
+  private get = (_: FastifyRequest, reply: FastifyReply): void => {
+    reply.send({ status: 'ok' })
+  }
 }
 
 export { HealthRouter }

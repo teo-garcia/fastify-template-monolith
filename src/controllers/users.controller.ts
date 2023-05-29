@@ -1,27 +1,33 @@
-import type { FastifyInstance } from 'fastify'
-import type { UserControllerLike } from '@tools/types'
+import { FastifyInstance } from 'fastify'
+import { UserControllerLike } from '@tools/types'
 import { UsersService } from '@services/users.service'
 import { comparePassword } from '@tools/bcrypt'
 
-const UsersController = (app: FastifyInstance) => {
-  const userService = UsersService(app)
+class UsersController {
+  private app: FastifyInstance
+  private userService: UsersService
 
-  const signUp: UserControllerLike['SIGN_UP'] = async (request, reply) => {
+  constructor(app: FastifyInstance) {
+    this.app = app
+    this.userService = new UsersService(app)
+  }
+
+  public signUp: UserControllerLike['SIGN_UP'] = async (request, reply) => {
     const newUser = request.body
-    const userAlreadyExists = await userService.getByEmail(newUser.email)
+    const userAlreadyExists = await this.userService.getByEmail(newUser.email)
 
     if (userAlreadyExists) {
       reply.conflict('User already exists')
       return
     }
 
-    const addedUser = await userService.add(newUser)
+    const addedUser = await this.userService.add(newUser)
     reply.send(addedUser)
   }
 
-  const signIn: UserControllerLike['SIGN_IN'] = async (request, reply) => {
+  public signIn: UserControllerLike['SIGN_IN'] = async (request, reply) => {
     const userInfo = request.body
-    const user = await userService.getByEmail(userInfo.email)
+    const user = await this.userService.getByEmail(userInfo.email)
     const passwordIsCorrect = await comparePassword(
       userInfo.password,
       user?.password
@@ -32,13 +38,9 @@ const UsersController = (app: FastifyInstance) => {
       reply.unauthorized('Incorrect email or password')
       return
     }
-    const token = await app.jwt.sign({ id: user?.id })
-    reply.header('authorization', `Bearer ${token}`).status(200)
-  }
 
-  return {
-    signUp,
-    signIn,
+    const token = await this.app.jwt.sign({ id: user?.id })
+    reply.header('authorization', `Bearer ${token}`).status(200)
   }
 }
 

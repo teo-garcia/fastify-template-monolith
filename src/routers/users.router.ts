@@ -1,23 +1,31 @@
-import type { FastifyPluginCallback } from 'fastify'
+import { FastifyInstance } from 'fastify'
 import { UsersController } from '@controllers/users.controller'
 import { UsersSchema } from '@schemas/users.schema'
 
-const UsersRouter: FastifyPluginCallback = async (app) => {
-  const userController = UsersController(app)
+class UsersRouter {
+  private app: FastifyInstance
 
-  app.route({
-    method: 'POST',
-    url: '/users/signup',
-    handler: userController.signUp,
-    schema: UsersSchema.signUp,
-  })
+  constructor(app: FastifyInstance) {
+    this.app = app
+  }
 
-  app.route({
-    method: 'POST',
-    url: '/users/signin',
-    handler: userController.signIn,
-    schema: UsersSchema.signIn,
-  })
+  public registerRoutes(): void {
+    const userController = new UsersController(this.app)
+
+    this.app.route({
+      method: 'POST',
+      url: '/users/signup',
+      handler: userController.signUp,
+      schema: UsersSchema.signUp,
+    })
+
+    this.app.route({
+      method: 'POST',
+      url: '/users/signin',
+      handler: userController.signIn,
+      schema: UsersSchema.signIn,
+    })
+  }
 }
 
 export { UsersRouter }
