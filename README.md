@@ -1,7 +1,7 @@
 ![README.md banner](./README.png)
 
-![Package License](https://img.shields.io/github/license/teo-garcia/fastify-template-postgres)
-![Package Version](https://img.shields.io/github/package-json/v/teo-garcia/fastify-template-postgres)
+![Package License](https://img.shields.io/github/license/teo-garcia/fastify-template-monolith)
+![Package Version](https://img.shields.io/github/package-json/v/teo-garcia/fastify-template-monolith)
 
 # Fastify Template Postgres
 
@@ -18,7 +18,7 @@ A faster way to start using Fastify with Postgres.
 1. Clone the repo or use the `gh` tool:
 
 ```bash
-  gh repo create my-project --private --clone --template teo-garcia/fastify-template-postgres
+  gh repo create my-project --private --clone --template teo-garcia/fastify-template-monolith
 ```
 
 2. Install the dependencies:

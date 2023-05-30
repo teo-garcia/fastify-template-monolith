@@ -1,5 +1,5 @@
 {
-  "name": "fastify-template-postgres",
+  "name": "fastify-template-monolith",
   "version": "0.0.0",
   "main": "src/app.ts",
   "author": "teo-garcia",
