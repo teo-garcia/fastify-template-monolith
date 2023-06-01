@@ -1,4 +1,4 @@
-import type { FastifyPluginCallback, FastifyInstance } from 'fastify'
+import type { FastifyInstance } from 'fastify'
 import { TodosController } from '@controllers/todos.controller'
 import { TodosSchema } from '@schemas/todos.schema'
 

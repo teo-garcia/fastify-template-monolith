@@ -1,15 +1,13 @@
 import 'dotenv/config'
-import fastify from 'fastify'
 import type { FastifyInstance } from 'fastify'
 import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
 import sensible from '@fastify/sensible'
 import postgres from '@fastify/postgres'
-import fastifyAuth from '@fastify/auth'
-import fastifyJwt from '@fastify/jwt'
-
+import auth from '@fastify/auth'
+import jwt from '@fastify/jwt'
+import compress from '@fastify/compress'
 import { SwaggerConfig } from '@config/swagger.config'
-import { FastifyConfig } from '@config/fastify.config'
 import { PostgresConfig } from '@config/postgres.config'
 import { JwtConfig } from '@config/jwt.config'
 
@@ -32,27 +30,42 @@ declare module 'fastify' {
 }
 
 class App {
-  public readonly app: FastifyInstance
+  constructor(private readonly app: FastifyInstance) {}
 
-  constructor() {
-    this.app = fastify(FastifyConfig)
-    this.registerPlugins()
-    this.registerDecorators()
-    this.registerRouters()
+  public async bootstrap() {
+    await this.registerDecorators()
+    this.app.log.info('Decorators Registered ✔️')
+    await this.registerPlugins()
+    this.app.log.info('Plugins Registered ✔️')
+    await this.registerRouters()
+    this.app.log.info('Routes Registered ✔️')
   }
 
-  private registerPlugins(): void {
-    this.app.register(sensible)
-    this.app.register(swagger, SwaggerConfig)
-    this.app.register(swaggerUI, SwaggerConfig)
-    this.app.register(postgres, PostgresConfig)
-    this.app.register(fastifyJwt, JwtConfig)
-    this.app.register(fastifyAuth)
+  public async run() {
+    const port = parseInt(process.env.SERVER_PORT as string)
+
+    this.app.listen({ port }, (error) => {
+      if (error) {
+        this.app.log.error(error)
+        console.error(error)
+        process.exit(1)
+      }
+    })
   }
 
-  private registerDecorators(): void {
-    this.app.decorate('verifyJWTandLevel', verifyJWTandLevel)
-    this.app.decorate('verifyUserAndPassword', verifyUserAndPassword)
+  private async registerPlugins(): Promise<void> {
+    await this.app.register(compress)
+    await this.app.register(sensible)
+    await this.app.register(swagger, SwaggerConfig)
+    await this.app.register(swaggerUI, SwaggerConfig)
+    await this.app.register(postgres, PostgresConfig)
+    await this.app.register(jwt, JwtConfig)
+    await this.app.register(auth)
+  }
+
+  private async registerDecorators(): Promise<void> {
+    await this.app.decorate('verifyJWTandLevel', verifyJWTandLevel)
+    await this.app.decorate('verifyUserAndPassword', verifyUserAndPassword)
   }
 
   private registerRouters(): void {
