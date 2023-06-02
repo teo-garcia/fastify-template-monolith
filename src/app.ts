@@ -6,10 +6,12 @@ import sensible from '@fastify/sensible'
 import postgres from '@fastify/postgres'
 import auth from '@fastify/auth'
 import jwt from '@fastify/jwt'
+import cors from '@fastify/cors'
 import compress from '@fastify/compress'
 import { SwaggerConfig } from '@config/swagger.config'
 import { PostgresConfig } from '@config/postgres.config'
 import { JwtConfig } from '@config/jwt.config'
+import { CorsSettings } from '@config/cors.config'
 
 import { TodosRouter } from '@routers/todos.router'
 import { HealthRouter } from '@routers/health.router'
@@ -54,6 +56,7 @@ class App {
   }
 
   private async registerPlugins(): Promise<void> {
+    await this.app.register(cors, CorsSettings)
     await this.app.register(compress)
     await this.app.register(sensible)
     await this.app.register(swagger, SwaggerConfig)
