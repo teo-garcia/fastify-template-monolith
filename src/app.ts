@@ -36,11 +36,11 @@ class App {
 
   public async bootstrap() {
     await this.registerDecorators()
-    this.app.log.info('Decorators Registered ✔️')
+    this.app.log.info('Registered Decorators')
     await this.registerPlugins()
-    this.app.log.info('Plugins Registered ✔️')
+    this.app.log.info('Registered Plugins')
     await this.registerRouters()
-    this.app.log.info('Routes Registered ✔️')
+    this.app.log.info('Registered Routes')
   }
 
   public async run() {
