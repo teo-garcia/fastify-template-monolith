@@ -1,6 +1,6 @@
+import type { FastifyInstance } from 'fastify'
 import { hashPassword } from '@tools/bcrypt'
 import { User } from '@tools/types'
-import { FastifyInstance } from 'fastify'
 
 class UsersService {
   private app: FastifyInstance
@@ -10,53 +10,51 @@ class UsersService {
   }
 
   public get = async (id: number): Promise<User | undefined> => {
-    const client = await this.app.pg.connect()
-    const user: User = (
-      await client.query(`SELECT * FROM users WHERE id=$1;`, [id])
-    ).rows[0]
-
+    const user: User | undefined = await this.app
+      .knex('users')
+      .where('id', id)
+      .first()
     return user
   }
 
   public getByEmail = async (email: string): Promise<User | undefined> => {
-    const client = await this.app.pg.connect()
-    const user: User = (
-      await client.query(`SELECT * FROM users WHERE email=$1;`, [email])
-    ).rows[0]
+    const user: User | undefined = await this.app
+      .knex('users')
+      .where('email', email)
+      .first()
     return user
   }
 
   public getAll = async (): Promise<Array<User>> => {
-    const client = await this.app.pg.connect()
-    const users: Array<User> = (
-      await client.query(`SELECT * FROM users WHERE;`)
-    ).rows
+    const users: Array<User> = await this.app.knex('users').select()
     return users
   }
 
-  public add = async (user: User) => {
-    const client = await this.app.pg.connect()
+  public add = async (user: Omit<User, 'id'>) => {
     const hashedPassword = await hashPassword(user.password)
-    await client.query(
-      `INSERT INTO users (name, email, password) VALUES ($1, $2, $3)`,
-      [user.name, user.email, hashedPassword]
-    )
+    await this.app.knex('users').insert({
+      name: user.name,
+      email: user.email,
+      password: hashedPassword,
+    })
   }
 
   public update = async (id: number, user: Partial<User>): Promise<User> => {
-    const client = await this.app.pg.connect()
-    const updatedUser: User = (
-      await client.query(
-        `UPDATE users SET name = $2, email = $3, password = $4 WHERE id = $1 RETURNING *`,
-        [id, user.name, user.email, user.password]
-      )
-    ).rows[0]
+    const updatedUser: User = await this.app
+      .knex('users')
+      .where('id', id)
+      .update({
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      })
+      .returning('*')
+      .then((rows) => rows[0])
     return updatedUser
   }
 
-  public remove = async (id: number): Promise<void> => {
-    const client = await this.app.pg.connect()
-    await client.query(`DELETE FROM users WHERE id = $1`, [id])
+  public remove = async (id: Pick<User, 'id'>): Promise<void> => {
+    await this.app.knex('users').where('id', id).del()
   }
 }
 

@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 
 /* Todo Types */
 export type Todo = {
-  id?: string
+  id?: number
   description: string
   status: string
 }
@@ -51,7 +51,7 @@ export type TodosControllerLike = {
 
 /* User Types */
 export type User = {
-  id?: string
+  id: number
   name: string
   email: string
   password: string
@@ -59,7 +59,7 @@ export type User = {
 
 export type UserRequest = {
   SIGN_UP: {
-    Body: User
+    Body: Omit<User, 'id'>
   }
   SIGN_IN: {
     Body: Omit<User, 'name'>

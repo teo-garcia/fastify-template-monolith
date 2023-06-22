@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { UserControllerLike } from '@tools/types'
+import type { User, UserControllerLike } from '@tools/types'
 import { UsersService } from '@services/users.service'
 import { comparePassword } from '@tools/bcrypt'
 
@@ -9,11 +9,11 @@ class UsersController {
 
   constructor(app: FastifyInstance) {
     this.app = app
-    this.userService = new UsersService(app)
+    this.userService = new UsersService(this.app)
   }
 
   public signUp: UserControllerLike['SIGN_UP'] = async (request, reply) => {
-    const newUser = request.body
+    const newUser: Omit<User, 'id'> = request.body
     const userAlreadyExists = await this.userService.getByEmail(newUser.email)
 
     if (userAlreadyExists) {

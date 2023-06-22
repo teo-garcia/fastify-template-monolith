@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import type { User, UserRequest } from './types'
 import { comparePassword } from './bcrypt'
+import { dbInstance } from '@tools/db'
 
 const verifyJWTandLevel = async (
   request: FastifyRequest,
@@ -19,11 +20,9 @@ const verifyUserAndPassword = async (
 ) => {
   const { email, password } = request.body
 
-  const client = await request.pg
-  const user: User = (
-    await client?.query(`SELECT * FROM users WHERE email = $1`, [email])
-  )?.rows[0]
-
+  const user: User | undefined = await dbInstance?.('users')
+    .where('email', email)
+    .first()
   const passwordIsCorrect = await comparePassword(password, user?.password)
   const isAuthorized = !!user && passwordIsCorrect
 
