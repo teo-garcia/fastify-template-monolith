@@ -9,14 +9,12 @@ export async function seed(knex: Knex): Promise<void> {
 
   await knex('users').del()
 
-  const users: Array<User> = Array.from({ length: 30 }).map((_, index) => ({
-    id: ++index,
+  const users: Array<Omit<User, 'id'>> = Array.from({ length: 30 }).map(() => ({
     name: faker.person.fullName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
+    role: faker.helpers.arrayElement(['user', 'admin']),
   }))
-
-  console.log(users)
 
   await knex('users').insert(users)
 }

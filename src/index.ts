@@ -1,5 +1,8 @@
+import 'module-alias/register'
+import 'dotenv/config'
+
 import fastify from 'fastify'
-import { App } from 'app'
+import { App } from './app'
 import { FastifyConfig } from '@config/fastify.config'
 
 const bootstrap = async () => {

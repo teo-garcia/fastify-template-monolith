@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import type { FastifyInstance } from 'fastify'
 import type { Knex } from 'knex'
 import swagger from '@fastify/swagger'
@@ -15,16 +14,14 @@ import { CorsSettings } from '@config/cors.config'
 import { TodosRouter } from '@routers/todos.router'
 import { HealthRouter } from '@routers/health.router'
 import { UsersRouter } from '@routers/users.router'
-import { verifyJWTandLevel, verifyUserAndPassword } from '@tools/jwt'
+import { verifyAdmin, verifyJWT, verifyUserAndPassword } from '@tools/jwt'
 import { knexPlugin } from '@tools/db'
 import { KnexConfig } from '@config/knex.config'
 
 declare module 'fastify' {
   interface FastifyInstance {
-    verifyJWTandLevel: (
-      request: FastifyRequest,
-      reply: FastifyReply
-    ) => Promise<void>
+    verifyJWT: (request: FastifyRequest, reply: FastifyReply) => Promise<void>
+    verifyAdmin: (request: FastifyRequest, reply: FastifyReply) => Promise<void>
     verifyUserAndPassword: (
       request: FastifyRequest,
       reply: FastifyReply
@@ -69,7 +66,8 @@ class App {
   }
 
   private async registerDecorators(): Promise<void> {
-    await this.app.decorate('verifyJWTandLevel', verifyJWTandLevel)
+    await this.app.decorate('verifyJWT', verifyJWT)
+    await this.app.decorate('verifyAdmin', verifyAdmin)
     await this.app.decorate('verifyUserAndPassword', verifyUserAndPassword)
   }
 

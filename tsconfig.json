@@ -2,16 +2,16 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
-    "baseUrl": "./src" ,
+    "baseUrl": "." ,
     "paths": {
-      "@config/*": ["config/*"],
-      "@plugins/*": ["plugins/*"],
-      "@tools/*": ["tools/*"],
-      "@schemas/*": ["schemas/*"],
-      "@services/*": ["services/*"],
-      "@controllers/*": ["controllers/*"],
-      "@models/*": ["models/*"],
-      "@routers/*": ["routers/*"],
+      "@config/*": ["src/config/*"],
+      "@plugins/*": ["src/plugins/*"],
+      "@tools/*": ["src/tools/*"],
+      "@schemas/*": ["src/schemas/*"],
+      "@services/*": ["src/services/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@models/*": ["src/models/*"],
+      "@routers/*": ["src/routers/*"],
     },
     "esModuleInterop": true ,
     "forceConsistentCasingInFileNames": true,
@@ -20,11 +20,7 @@
     "skipLibCheck": true,
     "outDir": ".fastify"
   },
-  "ts-node": {
-    "esModuleInterop": true,
-    "require": ["tsconfig-paths/register"],
-  },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "build", "dist"],
+  "exclude": ["node_modules", ".fastify"],
   
 }

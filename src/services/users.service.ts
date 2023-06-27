@@ -39,18 +39,16 @@ class UsersService {
     })
   }
 
-  public update = async (id: number, user: Partial<User>): Promise<User> => {
-    const updatedUser: User = await this.app
-      .knex('users')
-      .where('id', id)
-      .update({
-        name: user.name,
-        email: user.email,
-        password: user.password,
-      })
-      .returning('*')
-      .then((rows) => rows[0])
-    return updatedUser
+  public update = async (id: number, user: Partial<User>): Promise<void> => {
+    const updatedFields: Partial<User> = {
+      name: user.name,
+    }
+
+    if (user.password) {
+      updatedFields.password = await hashPassword(user.password)
+    }
+
+    await this.app.knex('users').where('id', id).update(updatedFields)
   }
 
   public remove = async (id: Pick<User, 'id'>): Promise<void> => {

@@ -55,6 +55,7 @@ export type User = {
   name: string
   email: string
   password: string
+  role: string
 }
 
 export type UserRequest = {
@@ -64,15 +65,23 @@ export type UserRequest = {
   SIGN_IN: {
     Body: Omit<User, 'name'>
   }
+  UPDATE: {
+    Body: Omit<User, 'password'>
+  }
 }
 
 export type UserControllerLike = {
+  GET_ALL: (request: FastifyRequest, reply: FastifyReply) => Promise<void>
   SIGN_UP: (
     request: FastifyRequest<UserRequest['SIGN_UP']>,
     reply: FastifyReply
   ) => Promise<void>
   SIGN_IN: (
     request: FastifyRequest<UserRequest['SIGN_IN']>,
+    reply: FastifyReply
+  ) => Promise<void>
+  UPDATE: (
+    request: FastifyRequest<UserRequest['UPDATE']>,
     reply: FastifyReply
   ) => Promise<void>
 }

@@ -18,7 +18,7 @@ class TodosRouter {
       handler: this.todosController.get,
       schema: TodosSchema.get,
       preHandler: this.app.auth([
-        this.app.verifyJWTandLevel,
+        this.app.verifyJWT,
         this.app.verifyUserAndPassword,
       ]),
     })
@@ -29,7 +29,7 @@ class TodosRouter {
       handler: this.todosController.getAll,
       schema: TodosSchema.getAll,
       preHandler: this.app.auth([
-        this.app.verifyJWTandLevel,
+        this.app.verifyJWT,
         this.app.verifyUserAndPassword,
       ]),
     })
@@ -40,7 +40,7 @@ class TodosRouter {
       handler: this.todosController.add,
       schema: TodosSchema.add,
       preHandler: this.app.auth([
-        this.app.verifyJWTandLevel,
+        this.app.verifyJWT,
         this.app.verifyUserAndPassword,
       ]),
     })
@@ -51,7 +51,7 @@ class TodosRouter {
       handler: this.todosController.update,
       schema: TodosSchema.update,
       preHandler: this.app.auth([
-        this.app.verifyJWTandLevel,
+        this.app.verifyJWT,
         this.app.verifyUserAndPassword,
       ]),
     })
@@ -62,7 +62,7 @@ class TodosRouter {
       handler: this.todosController.remove,
       schema: TodosSchema.remove,
       preHandler: this.app.auth([
-        this.app.verifyJWTandLevel,
+        this.app.verifyJWT,
         this.app.verifyUserAndPassword,
       ]),
     })

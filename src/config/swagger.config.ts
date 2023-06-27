@@ -6,9 +6,10 @@ const SwaggerConfig = {
   exposeRoute: true,
   swagger: {
     info: {
-      title: 'TODO API',
-      description: 'TODO CRUD',
-      version: '0.1.0',
+      title: 'Fastify Template Monolith',
+      description:
+        'REST API starter with Fastify, TypeScript, PostgreSQL, and JWT.',
+      version: '0.0.0',
     },
     externalDocs: {
       url: 'https://swagger.io',

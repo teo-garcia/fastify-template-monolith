@@ -3,14 +3,21 @@ import type { User, UserRequest } from './types'
 import { comparePassword } from './bcrypt'
 import { dbInstance } from '@tools/db'
 
-const verifyJWTandLevel = async (
-  request: FastifyRequest,
-  reply: FastifyReply
-) => {
+const verifyJWT = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
     await request.jwtVerify()
   } catch (error) {
     reply.unauthorized()
+  }
+}
+
+const verifyAdmin = async (request: FastifyRequest, reply: FastifyReply) => {
+  const userId = (request.user as User).id
+  const user = await dbInstance?.('users').where('id', userId).first()
+
+  if (!user || user.role !== 'admin') {
+    reply.unauthorized('Insufficient privileges')
+    return
   }
 }
 
@@ -24,9 +31,9 @@ const verifyUserAndPassword = async (
     .where('email', email)
     .first()
   const passwordIsCorrect = await comparePassword(password, user?.password)
-  const isAuthorized = !!user && passwordIsCorrect
+  const isAuthenticated = !!user && passwordIsCorrect
 
-  if (!isAuthorized) reply.unauthorized()
+  if (!isAuthenticated) reply.unauthorized()
 }
 
-export { verifyJWTandLevel, verifyUserAndPassword }
+export { verifyJWT, verifyAdmin, verifyUserAndPassword }

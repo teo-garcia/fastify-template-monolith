@@ -7,13 +7,16 @@
   "scripts": {
     "dev:api": "nodemon src/index.ts",
     "build:api": "docker compose up app",
-    "serve:api": "yarn dev:api",
+    "serve:api": "pm2 start .fastify",
     "dev:db": "docker compose up db",
-    "build:db": "docker compose up db",
+    "build:db": "docker compose up db -D",
+    "debug:db": "docker compose up pgadmin",
     "serve:db": "docker compose up db",
     "test:api": "tap --ts src/tests --no-check-coverage",
     "migrate:db": "yarn knex migrate:latest",
-    "seed:db": "yarn knex seed:run"
+    "seed:db": "yarn knex seed:run",
+    "dev": "concurrently --names 'app,db' -c 'bgBlue.bold,bgGreen.bold' \"yarn dev:api\" \"yarn dev:db\"",
+    "build": "concurrently --names 'app,db' -c 'bgBlue.bold,bgGreen.bold' \"yarn build:api\" \"yarn serve:db\""
   },
   "dependencies": {
     "@fastify/auth": "^4.3.0",
@@ -29,7 +32,7 @@
     "fastify": "^4.18.0",
     "fastify-plugin": "^4.5.0",
     "knex": "^2.4.2",
-    "pg": "^8.11.0",
+    "module-alias": "^2.2.3",
     "pino-pretty": "^10.0.0",
     "tap": "^16.3.6"
   },
@@ -41,15 +44,27 @@
     "@types/tap": "^15.0.8",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",
+    "concurrently": "^8.2.0",
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "nodemon": "^2.0.22",
+    "pm2": "^5.3.0",
     "prettier": "^2.8.8",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.3"
+  },
+  "_moduleAliases": {
+    "@config": ".fastify/config",
+    "@plugins": ".fastify/plugins",
+    "@tools": ".fastify/tools",
+    "@schemas": ".fastify/schemas",
+    "@services": ".fastify/services",
+    "@controllers": ".fastify/controllers",
+    "@models": ".fastify/models",
+    "@routers": ".fastify/routers"
   }
 }

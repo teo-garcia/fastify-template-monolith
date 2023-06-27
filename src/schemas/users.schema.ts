@@ -28,8 +28,12 @@ const UsersSchema = {
             type: 'string',
             format: 'email',
           },
+          role: {
+            type: 'string',
+            enum: ['user', 'admin'],
+          },
         },
-        required: ['name', 'email'],
+        required: ['name', 'email', 'role'],
       },
       409: {
         type: 'object',
@@ -68,9 +72,79 @@ const UsersSchema = {
             },
             required: ['authorization'],
           },
+          user: {
+            type: 'object',
+            properties: {
+              name: {
+                type: 'string',
+              },
+              email: {
+                type: 'string',
+                format: 'email',
+              },
+            },
+            required: ['name', 'email'],
+          },
         },
+        required: ['headers', 'user'],
       },
       401: {
+        type: 'object',
+        properties: {
+          message: {
+            type: 'string',
+          },
+        },
+        required: ['message'],
+      },
+    },
+  },
+  update: {
+    body: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+        },
+        password: {
+          type: 'string',
+          minLength: 6,
+        },
+      },
+      minProperties: 1,
+    },
+    response: {
+      204: {},
+      500: {
+        type: 'object',
+        properties: {
+          message: {
+            type: 'string',
+          },
+        },
+        required: ['message'],
+      },
+    },
+  },
+  getAll: {
+    response: {
+      200: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+            email: {
+              type: 'string',
+              format: 'email',
+            },
+          },
+          required: ['name', 'email'],
+        },
+      },
+      500: {
         type: 'object',
         properties: {
           message: {
