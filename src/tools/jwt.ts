@@ -22,11 +22,10 @@ const verifyAdmin = async (request: FastifyRequest, reply: FastifyReply) => {
 }
 
 const verifyUserAndPassword = async (
-  request: FastifyRequest<UserRequest['SIGN_IN']>,
+  request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const { email, password } = request.body
-
+  const { email, password } = request.body as UserRequest['SIGN_IN']['Body']
   const user: User | undefined = await dbInstance?.('users')
     .where('email', email)
     .first()

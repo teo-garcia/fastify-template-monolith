@@ -10,10 +10,9 @@ import compress from '@fastify/compress'
 import { SwaggerConfig } from '@config/swagger.config'
 import { JwtConfig } from '@config/jwt.config'
 import { CorsSettings } from '@config/cors.config'
-
-import { TodosRouter } from '@routers/todos.router'
-import { HealthRouter } from '@routers/health.router'
-import { UsersRouter } from '@routers/users.router'
+import { TodosController } from '@controllers/todos.controller'
+import { HealthController } from '@controllers/health.controller'
+import { UsersController } from '@controllers/users.controller'
 import { verifyAdmin, verifyJWT, verifyUserAndPassword } from '@tools/jwt'
 import { knexPlugin } from '@tools/db'
 import { KnexConfig } from '@config/knex.config'
@@ -38,8 +37,8 @@ class App {
     this.app.log.info('Registered Decorators')
     await this.registerPlugins()
     this.app.log.info('Registered Plugins')
-    await this.registerRouters()
-    this.app.log.info('Registered Routes')
+    await this.registerController()
+    this.app.log.info('Registered Controllers')
   }
 
   public async run() {
@@ -71,15 +70,15 @@ class App {
     await this.app.decorate('verifyUserAndPassword', verifyUserAndPassword)
   }
 
-  private registerRouters(): void {
-    const healthRouter = new HealthRouter(this.app)
-    const todoRouter = new TodosRouter(this.app)
-    const userRouter = new UsersRouter(this.app)
+  private registerController(): void {
+    const healthRouter = new HealthController(this.app)
+    const todoRouter = new TodosController(this.app)
+    const userRouter = new UsersController(this.app)
 
     healthRouter.registerRoutes()
     userRouter.registerRoutes()
     this.app.after(() => {
-      todoRouter.registerRoutes()
+      todoRouter.registerControllers()
     })
   }
 }

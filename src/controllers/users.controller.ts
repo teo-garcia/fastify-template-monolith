@@ -2,6 +2,8 @@ import { FastifyInstance } from 'fastify'
 import type { User, UserControllerLike } from '@tools/types'
 import { UsersService } from '@services/users.service'
 import { comparePassword } from '@tools/bcrypt'
+import { UsersSchema } from '@schemas/users.schema'
+import { verifyAdmin } from '@tools/jwt'
 
 class UsersController {
   private app: FastifyInstance
@@ -10,6 +12,41 @@ class UsersController {
   constructor(app: FastifyInstance) {
     this.app = app
     this.userService = new UsersService(this.app)
+  }
+
+  public registerRoutes(): void {
+    this.app.route({
+      method: 'GET',
+      url: '/users',
+      handler: this.getAll,
+      schema: UsersSchema.getAll,
+      preHandler: this.app.auth([this.app.verifyJWT, verifyAdmin]),
+    })
+
+    this.app.route({
+      method: 'POST',
+      url: '/users/signup',
+      handler: this.signUp,
+      schema: UsersSchema.signUp,
+    })
+
+    this.app.route({
+      method: 'POST',
+      url: '/users/signin',
+      handler: this.signIn,
+      schema: UsersSchema.signIn,
+    })
+
+    this.app.route({
+      method: 'PATCH',
+      url: '/users/update',
+      handler: this.update,
+      schema: UsersSchema.update,
+      preHandler: this.app.auth([
+        this.app.verifyJWT,
+        this.app.verifyUserAndPassword,
+      ]),
+    })
   }
 
   getAll: UserControllerLike['GET_ALL'] = async (request, reply) => {

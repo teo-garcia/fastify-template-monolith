@@ -1,6 +1,7 @@
 import { FastifyInstance } from 'fastify'
 import { TodosService } from '@services/todos.service'
 import { TodosControllerLike, User } from '@tools/types'
+import { TodosSchema } from '@schemas/todos.schema'
 
 class TodosController {
   private readonly todosService: TodosService
@@ -8,6 +9,63 @@ class TodosController {
   constructor(private readonly app: FastifyInstance) {
     this.app = app
     this.todosService = new TodosService(this.app)
+  }
+
+  registerControllers(): void {
+    this.app.route({
+      method: 'GET',
+      url: '/todos/:id',
+      handler: this.get,
+      schema: TodosSchema.get,
+      preHandler: this.app.auth([
+        this.app.verifyJWT,
+        this.app.verifyUserAndPassword,
+      ]),
+    })
+
+    this.app.route({
+      method: 'GET',
+      url: '/todos',
+      handler: this.getAll,
+      schema: TodosSchema.getAll,
+      preHandler: this.app.auth([
+        this.app.verifyJWT,
+        this.app.verifyUserAndPassword,
+      ]),
+    })
+
+    this.app.route({
+      method: 'POST',
+      url: '/todos',
+      handler: this.add,
+      schema: TodosSchema.add,
+      preHandler: this.app.auth([
+        this.app.verifyJWT,
+        this.app.verifyUserAndPassword,
+      ]),
+    })
+
+    this.app.route({
+      method: 'PUT',
+      url: '/todos/:id',
+      handler: this.update,
+      schema: TodosSchema.update,
+      preHandler: this.app.auth([
+        this.app.verifyJWT,
+        this.app.verifyUserAndPassword,
+      ]),
+    })
+
+    this.app.route({
+      method: 'DELETE',
+      url: '/todos/:id',
+      handler: this.remove,
+      schema: TodosSchema.remove,
+      preHandler: this.app.auth([
+        this.app.verifyJWT,
+        this.app.verifyUserAndPassword,
+      ]),
+    })
   }
 
   get: TodosControllerLike['GET'] = async (request, reply) => {

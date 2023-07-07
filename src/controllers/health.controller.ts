@@ -1,6 +1,6 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
+import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 
-class HealthRouter {
+class HealthController {
   private app: FastifyInstance
 
   constructor(app: FastifyInstance) {
@@ -20,4 +20,4 @@ class HealthRouter {
   }
 }
 
-export { HealthRouter }
+export { HealthController }
